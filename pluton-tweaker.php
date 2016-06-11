@@ -1,0 +1,73 @@
+<?php
+/*
+Plugin Name:    Pluton Theme Tweaker
+Plugin URI:     https://plutonwp.com
+Description:    Example plugin for tweaking the Pluton WordPress theme via hooks and filters instead of using a Child theme.
+Version:        1.0.0
+Author:         PlutonWP
+Author URI:     https://plutonwp.com
+License:        GPLv2
+*/
+
+
+/**
+ * Main Class
+ *
+ * Create a class that holds all your tweaks for the Pluton WordPress theme
+ *
+ * This is just a generic example for WordPress beginners to help them get started
+ * Child themes are generally better and easier to manage but if for some reason you don't want
+ * to use a child theme it's better to use a plugin to tweak the theme, then to tweak it manually
+ * because whenever you tweak a theme manually you will lose your edits when you update the theme.
+ *
+ * Also using a class isn't necessary, but I think it keeps things much cleaner and easier to read.
+ *
+ * @since 1.0.0
+ */
+class Pluton_Theme_Tweaker {
+
+    /**
+     * Constructor
+     *
+     * This should include all your add_action and add_filter functions
+     * I have added a simple example below, you will probably want to remove it.
+     *
+     * @since 1.6.0
+     */
+    public function __construct() {
+
+        // Disabled the main page header title from all WooCommerce pages
+        add_filter( 'pluton_display_page_header', array( $this, 'disable_woocommerce_page_header' ), 20 );
+
+
+    }
+
+    /**
+     * Example function
+     *
+     * This is just an example function showing how to make a small tweak to the theme
+     * this is taken right from the documentation page (see link below) but modified to work
+     * within a class instead of a functions.php file.
+     *
+     * @link    http://docs.plutonwp.com/article/166-disabling-the-page-title
+     * @since   1.0.0
+     */
+    public function disable_woocommerce_page_header( $return ) {
+
+        // Check if the is_woocommerce conditional exists and it returns true
+        if ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) {
+
+            // If so, disable the title by returning false for this filter
+            return false;
+
+        }
+
+        // Otherwise lets return the theme's value
+        else {
+            return $return;
+        }
+
+    } // END disable_woocommerce_page_header()
+
+}
+new Pluton_Theme_Tweaker;
